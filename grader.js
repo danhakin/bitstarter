@@ -38,10 +38,11 @@ var assertFileExists = function(infile) {
 };
 
 var cheerioHtmlFile = function(htmlfile) {
-    if (fs.existsSync(htmlfile)){
-      return cheerio.load(fs.readFileSync(htmlfile)); 
+    var file = htmlfile.toString();
+    if (fs.existsSync(file)){
+      return cheerio.load(fs.readFileSync(file)); 
     } else {
-      return cheerio.load(htmlfile); 
+      return cheerio.load(file); 
     }
 };
 
@@ -81,7 +82,7 @@ if(require.main == module) {
     if (program.url) {
       restler.get(program.url).on('complete', function (result, response) {
         if (result instanceof Error ) {
-          console.log('Error loading url: ' + result.message);
+          console.log('Error loading url: %s', result.message);
           process.exit(1);
         }
         checkJsonToConsole(result, program.checks);
